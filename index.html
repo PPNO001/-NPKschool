@@ -1,0 +1,1298 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NPK School Attendance</title>
+    <style>
+      :root {
+        --bg: #f6f8fb;
+        --surface: #ffffff;
+        --surface-soft: #edf5f7;
+        --text: #182230;
+        --muted: #667085;
+        --line: #d8e0e8;
+        --primary: #1f7a8c;
+        --primary-dark: #155e6c;
+        --nav: #102a43;
+        --accent: #e6a700;
+        --success: #15803d;
+        --warning: #b45309;
+        --danger: #b42318;
+        --info: #2563eb;
+        --shadow: 0 16px 38px rgba(16, 42, 67, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Segoe UI", Tahoma, sans-serif;
+      }
+
+      button,
+      input,
+      select {
+        font: inherit;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      .login-page {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 20px;
+        background:
+          linear-gradient(135deg, rgba(31, 122, 140, 0.12), transparent 36%),
+          linear-gradient(315deg, rgba(230, 167, 0, 0.15), transparent 30%),
+          var(--bg);
+      }
+
+      .login-card,
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      .login-card {
+        width: min(460px, 100%);
+        padding: 28px;
+      }
+
+      .app-shell {
+        display: grid;
+        grid-template-columns: 264px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        background: var(--nav);
+        color: #fff;
+        padding: 24px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 28px;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 46px;
+        height: 46px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #2cb1bc, #e6a700);
+        color: #082032;
+        font-weight: 900;
+      }
+
+      .brand strong {
+        display: block;
+        line-height: 1.2;
+      }
+
+      .brand small {
+        color: #cbd5e1;
+      }
+
+      .sidebar nav {
+        display: grid;
+        gap: 8px;
+      }
+
+      .nav-button {
+        width: 100%;
+        min-height: 44px;
+        border: 0;
+        border-radius: 8px;
+        padding: 0 14px;
+        background: transparent;
+        color: #d9e2ec;
+        text-align: left;
+        font-weight: 700;
+      }
+
+      .nav-button:hover,
+      .nav-button.active {
+        background: rgba(255, 255, 255, 0.13);
+        color: #fff;
+      }
+
+      .main-content {
+        min-width: 0;
+        padding: 28px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      .topbar h1 {
+        margin-bottom: 0;
+        font-size: clamp(1.6rem, 3vw, 2.35rem);
+      }
+
+      .eyebrow {
+        margin-bottom: 6px;
+        color: var(--primary);
+        font-weight: 800;
+      }
+
+      .user-menu {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .content-grid {
+        grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+        align-items: start;
+      }
+
+      .report-grid {
+        grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+        align-items: start;
+      }
+
+      .card {
+        padding: 22px;
+      }
+
+      .stat-card span {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--muted);
+      }
+
+      .stat-card strong {
+        font-size: 2rem;
+      }
+
+      .form-stack {
+        display: grid;
+        gap: 14px;
+      }
+
+      label {
+        display: grid;
+        gap: 7px;
+        color: var(--muted);
+        font-size: 0.92rem;
+        font-weight: 800;
+      }
+
+      input,
+      select {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 11px 12px;
+        background: #fff;
+        color: var(--text);
+      }
+
+      input:focus,
+      select:focus {
+        outline: 3px solid rgba(31, 122, 140, 0.18);
+        border-color: var(--primary);
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 42px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 0 16px;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 900;
+      }
+
+      .button:hover {
+        background: var(--primary-dark);
+      }
+
+      .button.secondary {
+        background: #fff;
+        color: var(--primary-dark);
+        border-color: var(--line);
+      }
+
+      .button.danger {
+        background: var(--danger);
+      }
+
+      .button.warning {
+        background: var(--warning);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 13px 12px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: middle;
+        white-space: nowrap;
+      }
+
+      th {
+        color: var(--muted);
+        font-size: 0.88rem;
+      }
+
+      .badge {
+        display: inline-flex;
+        min-height: 28px;
+        align-items: center;
+        border-radius: 999px;
+        padding: 3px 10px;
+        background: var(--surface-soft);
+        font-size: 0.86rem;
+        font-weight: 900;
+      }
+
+      .success {
+        color: var(--success);
+      }
+
+      .warning-text {
+        color: var(--warning);
+      }
+
+      .danger-text {
+        color: var(--danger);
+      }
+
+      .info {
+        color: var(--info);
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .notice {
+        margin-bottom: 16px;
+        border: 1px solid #abefc6;
+        border-radius: 8px;
+        padding: 12px 14px;
+        background: #ecfdf3;
+        color: #067647;
+        font-weight: 800;
+      }
+
+      .notice.error {
+        border-color: #fecdca;
+        background: #fef3f2;
+        color: var(--danger);
+      }
+
+      .mini-chart {
+        display: grid;
+        gap: 12px;
+      }
+
+      .bar-row {
+        display: grid;
+        grid-template-columns: 82px minmax(120px, 1fr) 38px;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .bar-track {
+        height: 12px;
+        border-radius: 999px;
+        background: #e6edf3;
+        overflow: hidden;
+      }
+
+      .bar-fill {
+        display: block;
+        height: 100%;
+        border-radius: inherit;
+        background: var(--primary);
+      }
+
+      .bar-fill.present {
+        background: var(--success);
+      }
+
+      .bar-fill.late {
+        background: var(--warning);
+      }
+
+      .bar-fill.absent {
+        background: var(--danger);
+      }
+
+      .bar-fill.leave {
+        background: var(--info);
+      }
+
+      .empty-state {
+        border: 1px dashed var(--line);
+        border-radius: 8px;
+        padding: 20px;
+        background: #fbfcfe;
+        color: var(--muted);
+      }
+
+      .section-gap {
+        margin-top: 16px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @media (max-width: 980px) {
+        .app-shell,
+        .content-grid,
+        .report-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          padding: 18px;
+        }
+
+        .sidebar nav {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 640px) {
+        .main-content {
+          padding: 18px;
+        }
+
+        .topbar,
+        .user-menu {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .sidebar nav,
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .card,
+        .login-card {
+          padding: 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      const STORAGE_KEY = "npk-school-attendance-v1";
+      const SESSION_KEY = "npk-school-session-v1";
+
+      const statusMeta = {
+        present: { label: "มาเรียน", className: "success" },
+        late: { label: "มาสาย", className: "warning-text" },
+        absent: { label: "ขาดเรียน", className: "danger-text" },
+        leave: { label: "ลา", className: "info" }
+      };
+
+      const navItems = [
+        ["dashboard", "Dashboard"],
+        ["attendance", "เช็คชื่อ"],
+        ["reports", "รายงาน"],
+        ["students", "นักเรียน"],
+        ["courses", "รายวิชา"],
+        ["settings", "ข้อมูล"]
+      ];
+
+      let state = loadState();
+      let signedIn = localStorage.getItem(SESSION_KEY) === "yes";
+      let ui = {
+        active: "dashboard",
+        notice: null,
+        attendanceDate: todayInput(),
+        selectedCourseId: state.courses[0]?.id || "",
+        reportCourseId: state.courses[0]?.id || "",
+        reportFrom: monthStartInput(),
+        reportTo: todayInput()
+      };
+
+      const app = document.querySelector("#app");
+
+      document.addEventListener("submit", handleSubmit);
+      document.addEventListener("click", handleClick);
+      document.addEventListener("change", handleChange);
+
+      render();
+
+      function freshState() {
+        const now = new Date().toISOString();
+        return {
+          settings: {
+            schoolName: "โรงเรียนนาเฉลียงพิทยาคม",
+            adminName: "ผู้ดูแลระบบ",
+            adminEmail: "admin@example.com",
+            adminPassword: "admin123"
+          },
+          students: [
+            { id: "stu-001", code: "S001", firstName: "กิตติ", lastName: "ใจดี", classroom: "ม.6/1", phone: "0800000001" },
+            { id: "stu-002", code: "S002", firstName: "มณีรัตน์", lastName: "สุขใจ", classroom: "ม.6/1", phone: "0800000002" },
+            { id: "stu-003", code: "S003", firstName: "ธนากร", lastName: "เรียนดี", classroom: "ม.6/2", phone: "0800000003" }
+          ],
+          courses: [
+            { id: "cou-th101", code: "TH101", name: "ภาษาไทยพื้นฐาน", teacherName: "ครูสมชาย" },
+            { id: "cou-ma101", code: "MA101", name: "คณิตศาสตร์พื้นฐาน", teacherName: "ครูวรรณา" },
+            { id: "cou-sc101", code: "SC101", name: "วิทยาศาสตร์พื้นฐาน", teacherName: "ครูปรียา" }
+          ],
+          attendance: [
+            { id: "att-001", studentId: "stu-001", courseId: "cou-th101", date: todayInput(), status: "present", note: "", createdAt: now },
+            { id: "att-002", studentId: "stu-002", courseId: "cou-th101", date: todayInput(), status: "late", note: "รถรับส่งมาช้า", createdAt: now },
+            { id: "att-003", studentId: "stu-003", courseId: "cou-th101", date: todayInput(), status: "present", note: "", createdAt: now }
+          ]
+        };
+      }
+
+      function loadState() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+          if (saved && Array.isArray(saved.students) && Array.isArray(saved.courses) && Array.isArray(saved.attendance)) {
+            return {
+              settings: { ...freshState().settings, ...(saved.settings || {}) },
+              students: saved.students,
+              courses: saved.courses,
+              attendance: saved.attendance
+            };
+          }
+        } catch (error) {
+          console.warn(error);
+        }
+
+        const seeded = freshState();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(seeded));
+        return seeded;
+      }
+
+      function saveState() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function handleSubmit(event) {
+        const form = event.target.closest("form[data-form]");
+        if (!form) {
+          return;
+        }
+
+        event.preventDefault();
+        const data = Object.fromEntries(new FormData(form).entries());
+
+        if (form.dataset.form === "login") {
+          if (data.email === state.settings.adminEmail && data.password === state.settings.adminPassword) {
+            signedIn = true;
+            localStorage.setItem(SESSION_KEY, "yes");
+            ui.notice = { type: "success", text: "เข้าสู่ระบบเรียบร้อยแล้ว" };
+            render();
+            return;
+          }
+
+          ui.notice = { type: "error", text: "อีเมลหรือรหัสผ่านไม่ถูกต้อง" };
+          render();
+        }
+
+        if (form.dataset.form === "student") {
+          state.students.push({
+            id: createId("stu"),
+            code: clean(data.code),
+            firstName: clean(data.firstName),
+            lastName: clean(data.lastName),
+            classroom: clean(data.classroom),
+            phone: clean(data.phone)
+          });
+          saveState();
+          ui.notice = { type: "success", text: "เพิ่มนักเรียนเรียบร้อยแล้ว" };
+          render();
+        }
+
+        if (form.dataset.form === "course") {
+          state.courses.push({
+            id: createId("cou"),
+            code: clean(data.code),
+            name: clean(data.name),
+            teacherName: clean(data.teacherName)
+          });
+          ensureUiSelection();
+          saveState();
+          ui.notice = { type: "success", text: "เพิ่มรายวิชาเรียบร้อยแล้ว" };
+          render();
+        }
+
+        if (form.dataset.form === "attendance-filter") {
+          ui.attendanceDate = data.attendanceDate;
+          ui.selectedCourseId = data.courseId;
+          render();
+        }
+
+        if (form.dataset.form === "attendance") {
+          state.students.forEach((student) => {
+            upsertAttendance(
+              student.id,
+              data.courseId,
+              data.attendanceDate,
+              data[`status_${student.id}`] || "present",
+              clean(data[`note_${student.id}`])
+            );
+          });
+          saveState();
+          ui.notice = { type: "success", text: "บันทึกการเช็คชื่อเรียบร้อยแล้ว" };
+          render();
+        }
+
+        if (form.dataset.form === "report-filter") {
+          ui.reportCourseId = data.courseId;
+          ui.reportFrom = data.fromDate;
+          ui.reportTo = data.toDate;
+          render();
+        }
+
+        if (form.dataset.form === "settings") {
+          state.settings.schoolName = clean(data.schoolName);
+          state.settings.adminName = clean(data.adminName);
+          state.settings.adminEmail = clean(data.adminEmail);
+          if (data.adminPassword) {
+            state.settings.adminPassword = data.adminPassword;
+          }
+          saveState();
+          ui.notice = { type: "success", text: "บันทึกข้อมูลระบบเรียบร้อยแล้ว" };
+          render();
+        }
+      }
+
+      function handleClick(event) {
+        const target = event.target.closest("[data-action], [data-nav]");
+        if (!target) {
+          return;
+        }
+
+        const action = target.dataset.action;
+
+        if (target.dataset.nav) {
+          ui.active = target.dataset.nav;
+          ui.notice = null;
+          ensureUiSelection();
+          render();
+          return;
+        }
+
+        if (action === "logout") {
+          signedIn = false;
+          localStorage.removeItem(SESSION_KEY);
+          ui.notice = null;
+          render();
+        }
+
+        if (action === "delete-student") {
+          const studentId = target.dataset.id;
+          const student = getStudent(studentId);
+          if (student && confirm(`ลบนักเรียน ${student.code} ?`)) {
+            state.students = state.students.filter((item) => item.id !== studentId);
+            state.attendance = state.attendance.filter((item) => item.studentId !== studentId);
+            saveState();
+            ui.notice = { type: "success", text: "ลบนักเรียนเรียบร้อยแล้ว" };
+            render();
+          }
+        }
+
+        if (action === "delete-course") {
+          const courseId = target.dataset.id;
+          const course = getCourse(courseId);
+          if (course && confirm(`ลบรายวิชา ${course.code} ?`)) {
+            state.courses = state.courses.filter((item) => item.id !== courseId);
+            state.attendance = state.attendance.filter((item) => item.courseId !== courseId);
+            ensureUiSelection();
+            saveState();
+            ui.notice = { type: "success", text: "ลบรายวิชาเรียบร้อยแล้ว" };
+            render();
+          }
+        }
+
+        if (action === "export") {
+          exportData();
+        }
+
+        if (action === "import") {
+          document.querySelector("[data-import-file]")?.click();
+        }
+
+        if (action === "reset") {
+          if (confirm("รีเซ็ตข้อมูลทั้งหมดกลับเป็นค่าเริ่มต้น?")) {
+            state = freshState();
+            saveState();
+            ensureUiSelection();
+            ui.notice = { type: "success", text: "รีเซ็ตข้อมูลเรียบร้อยแล้ว" };
+            render();
+          }
+        }
+      }
+
+      function handleChange(event) {
+        const input = event.target.closest("[data-import-file]");
+        if (!input || !input.files?.[0]) {
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          try {
+            const imported = JSON.parse(String(reader.result || ""));
+            if (!imported || !Array.isArray(imported.students) || !Array.isArray(imported.courses) || !Array.isArray(imported.attendance)) {
+              throw new Error("Invalid data");
+            }
+            state = {
+              settings: { ...freshState().settings, ...(imported.settings || {}) },
+              students: imported.students,
+              courses: imported.courses,
+              attendance: imported.attendance
+            };
+            saveState();
+            ensureUiSelection();
+            ui.notice = { type: "success", text: "นำเข้าข้อมูลเรียบร้อยแล้ว" };
+            render();
+          } catch (error) {
+            ui.notice = { type: "error", text: "ไฟล์ข้อมูลไม่ถูกต้อง" };
+            render();
+          }
+        };
+        reader.readAsText(input.files[0]);
+      }
+
+      function render() {
+        if (!signedIn) {
+          app.innerHTML = loginView();
+          return;
+        }
+
+        ensureUiSelection();
+        const active = navItems.find((item) => item[0] === ui.active) || navItems[0];
+        app.innerHTML = `
+          <div class="app-shell">
+            <aside class="sidebar">
+              <div class="brand">
+                <span class="brand-mark">NPK</span>
+                <div>
+                  <strong>${escapeHtml(state.settings.schoolName)}</strong>
+                  <small>Attendance System</small>
+                </div>
+              </div>
+              <nav>
+                ${navItems.map(([id, label]) => `
+                  <button class="nav-button ${ui.active === id ? "active" : ""}" type="button" data-nav="${id}">
+                    ${escapeHtml(label)}
+                  </button>
+                `).join("")}
+              </nav>
+            </aside>
+            <main class="main-content">
+              <header class="topbar">
+                <div>
+                  <p class="eyebrow">ระบบเช็คชื่อเข้าเรียน</p>
+                  <h1>${escapeHtml(active[1])}</h1>
+                </div>
+                <div class="user-menu">
+                  <span>${escapeHtml(state.settings.adminName)}</span>
+                  <button class="button secondary" type="button" data-action="logout">ออกจากระบบ</button>
+                </div>
+              </header>
+              ${noticeView()}
+              ${mainView()}
+            </main>
+          </div>
+        `;
+      }
+
+      function loginView() {
+        return `
+          <main class="login-page">
+            <section class="login-card">
+              <p class="eyebrow">NPK School Attendance</p>
+              <h1>เข้าสู่ระบบ</h1>
+              <p class="muted">${escapeHtml(state.settings.schoolName)}</p>
+              ${noticeView()}
+              <form class="form-stack" data-form="login">
+                <label>
+                  อีเมล
+                  <input type="email" name="email" value="${escapeHtml(state.settings.adminEmail)}" required>
+                </label>
+                <label>
+                  รหัสผ่าน
+                  <input type="password" name="password" required>
+                </label>
+                <button class="button" type="submit">เข้าสู่ระบบ</button>
+              </form>
+            </section>
+          </main>
+        `;
+      }
+
+      function mainView() {
+        if (ui.active === "attendance") {
+          return attendanceView();
+        }
+        if (ui.active === "reports") {
+          return reportsView();
+        }
+        if (ui.active === "students") {
+          return studentsView();
+        }
+        if (ui.active === "courses") {
+          return coursesView();
+        }
+        if (ui.active === "settings") {
+          return settingsView();
+        }
+        return dashboardView();
+      }
+
+      function dashboardView() {
+        const todayRecords = state.attendance.filter((item) => item.date === todayInput());
+        const counts = countStatuses(todayRecords);
+        const latest = [...state.attendance]
+          .sort((a, b) => `${b.date}${b.createdAt || ""}`.localeCompare(`${a.date}${a.createdAt || ""}`))
+          .slice(0, 8);
+
+        return `
+          <section class="grid stats-grid">
+            <article class="card stat-card"><span>นักเรียนทั้งหมด</span><strong>${state.students.length}</strong></article>
+            <article class="card stat-card"><span>รายวิชา</span><strong>${state.courses.length}</strong></article>
+            <article class="card stat-card"><span>มาเรียนวันนี้</span><strong>${counts.present}</strong></article>
+            <article class="card stat-card"><span>ขาดเรียนวันนี้</span><strong>${counts.absent}</strong></article>
+          </section>
+
+          <section class="grid report-grid section-gap">
+            <article class="card">
+              <h2>สรุปวันนี้</h2>
+              ${statusChart(counts)}
+            </article>
+            <article class="card">
+              <h2>รายการเช็คชื่อล่าสุด</h2>
+              ${latest.length ? recentTable(latest) : emptyState("ยังไม่มีข้อมูลเช็คชื่อ")}
+            </article>
+          </section>
+        `;
+      }
+
+      function attendanceView() {
+        const selectedCourse = getCourse(ui.selectedCourseId);
+        return `
+          <section class="card">
+            <h2>เลือกวันที่และรายวิชา</h2>
+            <form class="form-stack" data-form="attendance-filter">
+              <label>
+                วันที่
+                <input type="date" name="attendanceDate" value="${escapeHtml(ui.attendanceDate)}" required>
+              </label>
+              <label>
+                รายวิชา
+                <select name="courseId" required>
+                  ${courseOptions(ui.selectedCourseId)}
+                </select>
+              </label>
+              <button class="button" type="submit">โหลดรายชื่อนักเรียน</button>
+            </form>
+          </section>
+
+          <section class="card section-gap">
+            <h2>บันทึกสถานะเข้าเรียน</h2>
+            ${selectedCourse && state.students.length ? attendanceForm(selectedCourse) : emptyState("เพิ่มรายวิชาและนักเรียนก่อนเริ่มเช็คชื่อ")}
+          </section>
+        `;
+      }
+
+      function attendanceForm(course) {
+        return `
+          <form data-form="attendance">
+            <input type="hidden" name="courseId" value="${escapeHtml(course.id)}">
+            <input type="hidden" name="attendanceDate" value="${escapeHtml(ui.attendanceDate)}">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>รหัส</th>
+                    <th>นักเรียน</th>
+                    <th>ห้อง</th>
+                    <th>สถานะ</th>
+                    <th>หมายเหตุ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${state.students.map((student) => {
+                    const existing = findAttendance(student.id, course.id, ui.attendanceDate);
+                    return `
+                      <tr>
+                        <td>${escapeHtml(student.code)}</td>
+                        <td>${escapeHtml(student.firstName)} ${escapeHtml(student.lastName)}</td>
+                        <td>${escapeHtml(student.classroom)}</td>
+                        <td>
+                          <select name="status_${escapeHtml(student.id)}">
+                            ${statusOptions(existing?.status || "present")}
+                          </select>
+                        </td>
+                        <td><input name="note_${escapeHtml(student.id)}" value="${escapeHtml(existing?.note || "")}" placeholder="หมายเหตุ"></td>
+                      </tr>
+                    `;
+                  }).join("")}
+                </tbody>
+              </table>
+            </div>
+            <div class="actions section-gap">
+              <button class="button" type="submit">บันทึกการเช็คชื่อ</button>
+            </div>
+          </form>
+        `;
+      }
+
+      function reportsView() {
+        const rows = reportRows();
+        return `
+          <section class="grid report-grid">
+            <article class="card">
+              <h2>ตัวกรองรายงาน</h2>
+              <form class="form-stack" data-form="report-filter">
+                <label>
+                  รายวิชา
+                  <select name="courseId" required>${courseOptions(ui.reportCourseId)}</select>
+                </label>
+                <label>ตั้งแต่วันที่ <input type="date" name="fromDate" value="${escapeHtml(ui.reportFrom)}" required></label>
+                <label>ถึงวันที่ <input type="date" name="toDate" value="${escapeHtml(ui.reportTo)}" required></label>
+                <button class="button" type="submit">แสดงรายงาน</button>
+              </form>
+            </article>
+            <article class="card">
+              <h2>สรุปการเข้าเรียน</h2>
+              ${rows.length ? reportTable(rows) : emptyState("ยังไม่มีข้อมูลสำหรับช่วงวันที่นี้")}
+            </article>
+          </section>
+        `;
+      }
+
+      function studentsView() {
+        return `
+          <section class="grid content-grid">
+            <article class="card">
+              <h2>เพิ่มนักเรียน</h2>
+              <form class="form-stack" data-form="student">
+                <label>รหัสนักเรียน <input name="code" required></label>
+                <label>ชื่อ <input name="firstName" required></label>
+                <label>นามสกุล <input name="lastName" required></label>
+                <label>ห้องเรียน <input name="classroom" placeholder="ม.6/1" required></label>
+                <label>เบอร์โทร <input name="phone"></label>
+                <button class="button" type="submit">บันทึกนักเรียน</button>
+              </form>
+            </article>
+            <article class="card">
+              <h2>รายชื่อนักเรียน</h2>
+              ${state.students.length ? studentsTable() : emptyState("ยังไม่มีรายชื่อนักเรียน")}
+            </article>
+          </section>
+        `;
+      }
+
+      function coursesView() {
+        return `
+          <section class="grid content-grid">
+            <article class="card">
+              <h2>เพิ่มรายวิชา</h2>
+              <form class="form-stack" data-form="course">
+                <label>รหัสวิชา <input name="code" required></label>
+                <label>ชื่อวิชา <input name="name" required></label>
+                <label>ครูผู้สอน <input name="teacherName" required></label>
+                <button class="button" type="submit">บันทึกรายวิชา</button>
+              </form>
+            </article>
+            <article class="card">
+              <h2>รายการรายวิชา</h2>
+              ${state.courses.length ? coursesTable() : emptyState("ยังไม่มีรายวิชา")}
+            </article>
+          </section>
+        `;
+      }
+
+      function settingsView() {
+        return `
+          <section class="grid report-grid">
+            <article class="card">
+              <h2>ข้อมูลระบบ</h2>
+              <form class="form-stack" data-form="settings">
+                <label>ชื่อโรงเรียน <input name="schoolName" value="${escapeHtml(state.settings.schoolName)}" required></label>
+                <label>ชื่อผู้ดูแล <input name="adminName" value="${escapeHtml(state.settings.adminName)}" required></label>
+                <label>อีเมลผู้ดูแล <input type="email" name="adminEmail" value="${escapeHtml(state.settings.adminEmail)}" required></label>
+                <label>รหัสผ่านใหม่ <input type="password" name="adminPassword" placeholder="เว้นว่างถ้าไม่เปลี่ยน"></label>
+                <button class="button" type="submit">บันทึกข้อมูลระบบ</button>
+              </form>
+            </article>
+            <article class="card">
+              <h2>สำรองข้อมูล</h2>
+              <input class="hidden" type="file" accept="application/json" data-import-file>
+              <div class="actions">
+                <button class="button secondary" type="button" data-action="export">Export JSON</button>
+                <button class="button secondary" type="button" data-action="import">Import JSON</button>
+                <button class="button danger" type="button" data-action="reset">รีเซ็ตข้อมูล</button>
+              </div>
+            </article>
+          </section>
+        `;
+      }
+
+      function studentsTable() {
+        return `
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>รหัส</th>
+                  <th>ชื่อ-นามสกุล</th>
+                  <th>ห้อง</th>
+                  <th>เบอร์โทร</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                ${state.students.map((student) => `
+                  <tr>
+                    <td>${escapeHtml(student.code)}</td>
+                    <td>${escapeHtml(student.firstName)} ${escapeHtml(student.lastName)}</td>
+                    <td>${escapeHtml(student.classroom)}</td>
+                    <td>${escapeHtml(student.phone || "")}</td>
+                    <td><button class="button danger" type="button" data-action="delete-student" data-id="${escapeHtml(student.id)}">ลบ</button></td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function coursesTable() {
+        return `
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>รหัส</th>
+                  <th>ชื่อวิชา</th>
+                  <th>ครูผู้สอน</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                ${state.courses.map((course) => `
+                  <tr>
+                    <td>${escapeHtml(course.code)}</td>
+                    <td>${escapeHtml(course.name)}</td>
+                    <td>${escapeHtml(course.teacherName)}</td>
+                    <td><button class="button danger" type="button" data-action="delete-course" data-id="${escapeHtml(course.id)}">ลบ</button></td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function recentTable(records) {
+        return `
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>วันที่</th>
+                  <th>รหัส</th>
+                  <th>นักเรียน</th>
+                  <th>รายวิชา</th>
+                  <th>สถานะ</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${records.map((record) => {
+                  const student = getStudent(record.studentId);
+                  const course = getCourse(record.courseId);
+                  return `
+                    <tr>
+                      <td>${escapeHtml(record.date)}</td>
+                      <td>${escapeHtml(student?.code || "-")}</td>
+                      <td>${escapeHtml(student ? `${student.firstName} ${student.lastName}` : "-")}</td>
+                      <td>${escapeHtml(course?.name || "-")}</td>
+                      <td>${statusBadge(record.status)}</td>
+                    </tr>
+                  `;
+                }).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function reportTable(rows) {
+        return `
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>รหัส</th>
+                  <th>นักเรียน</th>
+                  <th>ห้อง</th>
+                  <th>มาเรียน</th>
+                  <th>สาย</th>
+                  <th>ขาด</th>
+                  <th>ลา</th>
+                  <th>คิดเป็น %</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map((row) => `
+                  <tr>
+                    <td>${escapeHtml(row.code)}</td>
+                    <td>${escapeHtml(row.name)}</td>
+                    <td>${escapeHtml(row.classroom)}</td>
+                    <td class="success">${row.present}</td>
+                    <td class="warning-text">${row.late}</td>
+                    <td class="danger-text">${row.absent}</td>
+                    <td class="info">${row.leave}</td>
+                    <td><span class="badge">${row.percent}%</span></td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function reportRows() {
+        if (!ui.reportCourseId) {
+          return [];
+        }
+
+        return state.students.map((student) => {
+          const records = state.attendance.filter((record) => (
+            record.studentId === student.id &&
+            record.courseId === ui.reportCourseId &&
+            record.date >= ui.reportFrom &&
+            record.date <= ui.reportTo
+          ));
+          const counts = countStatuses(records);
+          const total = records.length;
+          const attended = counts.present + counts.late;
+          return {
+            code: student.code,
+            name: `${student.firstName} ${student.lastName}`,
+            classroom: student.classroom,
+            present: counts.present,
+            late: counts.late,
+            absent: counts.absent,
+            leave: counts.leave,
+            percent: total > 0 ? Math.round((attended / total) * 10000) / 100 : 0
+          };
+        });
+      }
+
+      function statusChart(counts) {
+        const max = Math.max(counts.present, counts.late, counts.absent, counts.leave, 1);
+        return `
+          <div class="mini-chart">
+            ${Object.entries(statusMeta).map(([status, meta]) => `
+              <div class="bar-row">
+                <span>${escapeHtml(meta.label)}</span>
+                <span class="bar-track"><i class="bar-fill ${status}" style="width: ${(counts[status] / max) * 100}%"></i></span>
+                <strong>${counts[status]}</strong>
+              </div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      function countStatuses(records) {
+        return records.reduce((counts, record) => {
+          counts[record.status] = (counts[record.status] || 0) + 1;
+          return counts;
+        }, { present: 0, late: 0, absent: 0, leave: 0 });
+      }
+
+      function noticeView() {
+        if (!ui.notice) {
+          return "";
+        }
+        const className = ui.notice.type === "error" ? "notice error" : "notice";
+        return `<div class="${className}">${escapeHtml(ui.notice.text)}</div>`;
+      }
+
+      function emptyState(text) {
+        return `<div class="empty-state">${escapeHtml(text)}</div>`;
+      }
+
+      function courseOptions(selectedId) {
+        if (!state.courses.length) {
+          return `<option value="">ยังไม่มีรายวิชา</option>`;
+        }
+        return state.courses.map((course) => `
+          <option value="${escapeHtml(course.id)}" ${course.id === selectedId ? "selected" : ""}>
+            ${escapeHtml(course.code)} - ${escapeHtml(course.name)}
+          </option>
+        `).join("");
+      }
+
+      function statusOptions(selectedStatus) {
+        return Object.entries(statusMeta).map(([status, meta]) => `
+          <option value="${status}" ${selectedStatus === status ? "selected" : ""}>${escapeHtml(meta.label)}</option>
+        `).join("");
+      }
+
+      function statusBadge(status) {
+        const meta = statusMeta[status] || { label: status, className: "muted" };
+        return `<span class="badge ${meta.className}">${escapeHtml(meta.label)}</span>`;
+      }
+
+      function upsertAttendance(studentId, courseId, date, status, note) {
+        const existing = findAttendance(studentId, courseId, date);
+        if (existing) {
+          existing.status = status;
+          existing.note = note;
+          existing.createdAt = new Date().toISOString();
+          return;
+        }
+
+        state.attendance.push({
+          id: createId("att"),
+          studentId,
+          courseId,
+          date,
+          status,
+          note,
+          createdAt: new Date().toISOString()
+        });
+      }
+
+      function findAttendance(studentId, courseId, date) {
+        return state.attendance.find((record) => record.studentId === studentId && record.courseId === courseId && record.date === date);
+      }
+
+      function getStudent(id) {
+        return state.students.find((student) => student.id === id);
+      }
+
+      function getCourse(id) {
+        return state.courses.find((course) => course.id === id);
+      }
+
+      function ensureUiSelection() {
+        if (!state.courses.some((course) => course.id === ui.selectedCourseId)) {
+          ui.selectedCourseId = state.courses[0]?.id || "";
+        }
+        if (!state.courses.some((course) => course.id === ui.reportCourseId)) {
+          ui.reportCourseId = state.courses[0]?.id || "";
+        }
+      }
+
+      function exportData() {
+        const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `npk-school-backup-${todayInput()}.json`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      function todayInput() {
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
+      function monthStartInput() {
+        return `${todayInput().slice(0, 8)}01`;
+      }
+
+      function createId(prefix) {
+        return `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+      }
+
+      function clean(value) {
+        return String(value || "").trim();
+      }
+
+      function escapeHtml(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          "\"": "&quot;",
+          "'": "&#039;"
+        })[char]);
+      }
+    </script>
+  </body>
+</html>
