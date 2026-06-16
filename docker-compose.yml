@@ -1,0 +1,45 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: school_management_system
+      DB_USER: school_user
+      DB_PASSWORD: school_pass
+      DB_AUTO_MIGRATE: "true"
+      DB_WAIT_SECONDS: 60
+      ADMIN_EMAIL: admin@example.com
+      ADMIN_NAME: ผู้ดูแลระบบ
+      ADMIN_PASSWORD: admin123
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: school_management_system
+      MYSQL_USER: school_user
+      MYSQL_PASSWORD: school_pass
+      MYSQL_ROOT_PASSWORD: root_pass
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:5
+    profiles:
+      - tools
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: school_user
+      PMA_PASSWORD: school_pass
+    depends_on:
+      - db
+
+volumes:
+  mysql-data:

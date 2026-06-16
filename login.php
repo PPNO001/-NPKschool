@@ -7,6 +7,7 @@ if (current_user()) {
 }
 
 $error = '';
+$email = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     verify_csrf();
@@ -44,11 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <input type="hidden" name="csrf_token" value="<?= h(csrf_token()) ?>">
           <label>
             อีเมล
-            <input type="email" name="email" value="admin@example.com" required>
+            <input type="email" name="email" value="<?= h($email) ?>" required>
           </label>
           <label>
             รหัสผ่าน
-            <input type="password" name="password" value="admin123" required>
+            <input type="password" name="password" required>
           </label>
           <button class="button" type="submit">เข้าสู่ระบบ</button>
         </form>

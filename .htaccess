@@ -1,0 +1,5 @@
+Options -Indexes
+
+<FilesMatch "^(\.env|\.gitignore|Dockerfile|docker-compose\.yml|railway\.json|README\.md)$">
+    Require all denied
+</FilesMatch>
