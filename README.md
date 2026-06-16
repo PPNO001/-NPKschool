@@ -2,6 +2,14 @@
 
 ระบบเช็คชื่อเข้าเรียนสำหรับโรงเรียน พัฒนาด้วย PHP และ MySQL ใช้ PDO prepared statements และรองรับการรันแบบ local, Docker, shared hosting/cPanel และ Railway
 
+## ใช้งานออนไลน์ทันที
+
+เปิดเวอร์ชัน GitHub Pages ได้ที่:
+
+https://ppno001.github.io/-NPKschool/
+
+เวอร์ชันนี้อยู่ใน `docs/index.html` และเก็บข้อมูลใน browser/localStorage เหมาะสำหรับใช้งานทันทีหรือสาธิตระบบ ถ้าต้องการข้อมูลกลางหลายเครื่องให้ deploy เวอร์ชัน PHP/MySQL ด้วย Railway หรือ hosting ที่รองรับ PHP
+
 ## ฟีเจอร์
 
 - เข้าสู่ระบบผู้ดูแล
